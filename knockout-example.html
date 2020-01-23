@@ -31,6 +31,7 @@
         <div>
             <h2>Select Account</h2>
             Total no.of Accounts: <span data-bind="text: Accounts().length"></span><br />
+            Total Balance: <span data-bind="text:TotalBalance"></span><br/>
             <select id="selectAcc" data-bind="options: Accounts, optionsText:'Name', optionsValue:'Id'"></select>
             <hr />
             <h2>Selected Account details</h2>
@@ -67,7 +68,14 @@
                 var a3 = new Account(3,"Jagan", 30000);
                 var a4 = new Account(4,"Lokesh", 40000);
                 this.Accounts = ko.observableArray([a1,a2, a3, a4])
-                this.SelectedAccountIndex = ko.observable(0)
+                this.SelectedAccountIndex = ko.observable(0);
+                this.TotalBalance = ko.computed(function() {
+                    var total = 0;
+                    for(i=0; i<this.Accounts().length;i++){
+                        total += Number(this.Accounts()[i].Balance);
+                    }
+                    return total;
+                },this)
             }
             var a1 = new Account(1,"Pavan", 10000);
             var accViewModel = new AccountViewModel(a1);
