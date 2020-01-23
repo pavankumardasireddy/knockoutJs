@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script src="knockout-3.5.1.js"></script>
+        <script src="jquery.min.js"></script>
+        <style>
+            .redColor {
+                color: red;
+                border: solid 2px yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Even / Odd check</h2>
+        <!-- Visible binding -->
+        <input type="range" name="evenCheck" min="1" max="100" id="eoc" data-bind="value: Number"/><span data-bind="text: Number"></span><br/>
+        selected range is: <span data-bind="visible: IsEven">Even</span><span data-bind="visible: IsEven()==false">Odd</span>
+        <br/>
+        <!-- Html binding -->
+        <span data-bind="html:Formatted"></span>
+        <br/>
+        <!-- Style binding -->
+        <div data-bind="style:{color:Color}">This is style binding</div>
+        <br/>
+        <!-- Class binding -->
+        <div data-bind="css:{redColor:IsEven()}">This is Odd</div>
+        <br/>
+        <!-- Attribute binding -->
+        <a data-bind="attr:{href: Urls()[Number%2]}">Click</a>
+        <script>
+            var myViewModel = function() {
+                this.Number = ko.observable(1);
+                this.IsEven = ko.computed(function(){
+                    return this.Number()% 2 == 0;
+                }, this)
+                this.Formatted = ko.computed(function(){
+                    return "<b> The number is:"+ this.Number() +"</b>"
+                }, this)
+                this.Color = ko.computed(function(){
+                    if(this.IsEven())
+                        return "Green"
+                    else
+                        return "Red"
+                }, this)
+                this.Urls= ko.observableArray(['http://youtube.com', 'http://facebook.com'])
+            }
+
+            ko.applyBindings(myViewModel);
+        </script>
+    </body>
+</html>
