@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script src="knockout-3.5.1.js"></script>
+        <script src="jquery.min.js"></script>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <th>S.No</th>
+                <th>A/c No</th>
+                <th>User Name</th>
+                <th>Balance</th>
+            </thead>
+            <tbody data-bind="foreach: {data: Users, as: 'User'}">
+                <tr>
+                    <td data-bind="text:$index"></td>
+                    <td data-bind="text:User.Id"></td>
+                    <td data-bind="text:User.Name"></td>
+                    <td data-bind="text:User.City"></td>
+                </tr>
+            </tbody>
+        </table>
+        <script>
+            var Account
+
+            var myAccountViewModel = function() {
+
+            }
+
+            ko.applyBindings(myAccountViewModel)
+        </script>
+    </body>
+</html>
