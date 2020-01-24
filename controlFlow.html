@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script src="knockout-3.5.1.js"></script>
+        <script src="jquery.min.js"></script>
+    </head>
+    <body>
+        <input type="checkbox" id="chk" data-bind="checked:ShowHideSection" />Show / Hide
+        <!-- if binding -->
+        <div id="ifDiv" data-bind="if:ShowHideSection">
+            Hello this is IF binding
+        </div>
+        <!-- ifNot binding -->
+        <div id="ifNotDiv" data-bind="ifnot:ShowHideSection">
+            Hello this is If NOT binding
+        </div>
+        <!-- Container less binding -->
+        <ul>
+            <li>This will appear always</li>
+            <!-- ko if:ShowHideSection -->
+            <li>This will present/absent dynamically</li>
+            <!-- /ko -->
+        </ul>
+        <hr/>
+        <!-- With Binding -->
+        City: <span data-bind="text:City"></span>
+        <div id="withBinding" data-bind="with:Phone">
+            Home Phone: <span data-bind="text:Home"></span><br/>
+            Office Phone: <span data-bind="text:$data.Office"></span>
+        </div>
+        <!-- foreach binding // with usage-->
+        <ul data-bind="foreach: Users">
+            <li data-bind="with:$data">
+                Id: <span data-bind="text:Id"></span><br/>
+                Name: <span data-bind="text:Name"></span><br/>
+                City: <span data-bind="text:City"></span><hr/>
+            </li>
+        </ul>
+        <!-- foreach bindin in table //  as, index, usage-->
+        <table>
+            <thead>
+                <th>S.No</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>City</th>
+            </thead>
+            <tbody data-bind="foreach: {data: Users, as: 'User'}">
+                <tr>
+                    <td data-bind="text:$index"></td>
+                    <td data-bind="text:User.Id"></td>
+                    <td data-bind="text:User.Name"></td>
+                    <td data-bind="text:User.City"></td>
+                </tr>
+            </tbody>
+        </table>
+        <script>
+            var User = function(id, name, city) {
+                this.Id = id,
+                this.Name = name,
+                this.City = city
+            }
+
+            var myNewModel = function() {
+                this.ShowHideSection = ko.observable(true);
+                this.City = "Vijayawada";
+                this.Phone = {
+                    Home : 9874563210,
+                    Office : 9876543210 
+                };
+                this.Users = ko.observableArray([
+                    new User(1, "abcd", "Vijayawada"),
+                    new User(2, "efgh", "Hyderabad"),
+                    new User(3, "ijkl", "Visakhapatnam")
+                ])
+            }
+
+            ko.applyBindings(myNewModel)
+        </script>
+    </body>
+</html>
+
+
+<!-- if binding is similar to visible binding but, difference is:
+1. if binding will remove the content from the DOM
+2. visible binding will just hide the content from the DOM -->
